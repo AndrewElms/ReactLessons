@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>React Test Page</title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
+
+    <style>
+        .Background {
+            background-color: #54c0b1;
+            color: white;
+        }
+        .Header
+        {
+            color: white;            
+            font-size:larger;
+        }
+        .Body {
+            color: white;
+            font-size: medium;
+        }
+        a {
+            font-size:small;
+        }
+    </style>
+
+    <script type="text/babel">        
+       
+        class Comment extends React.Component {
+            render() {
+                return (
+                        <div>
+                            <p className="Header">{this.props.author}</p>
+                            <p className="Body">{this.props.body}</p>
+                            <div>
+                                <a href="#">Delete Comment</a>
+                            </div>
+                            <hr />
+                        </div>
+                        );
+                }
+        } //Comment
+
+        class CommentBox extends React.Component{
+
+            constructor() {
+                super();
+
+                this.state = { showComments: false };
+
+            } // constructor
+
+            _getComments() {
+         
+                 const commentList = [
+                        { id:1, author:"Bender", body:"Bite my shiny metal arse" },
+                        { id:2, author:"Professor F", body:"Good news everyone!"},
+                        { id:3, author:"Dr Z", body:"Woo woo woo woo woo..."}
+                    ];
+
+                return commentList.map((comment) => {
+                    return (
+                            <Comment author={comment.author} body={comment.body} accesskey={comment.id} />
+                        );
+                    });               
+            }
+
+            _getCommentsCount(commentCount){
+        
+                var returnText = "";
+
+                if (commentCount === 0) {
+                    returnText = "No Comments";
+                    }
+                else if (commentCount === 1) {
+                    returnText = "1 Comment";
+                    }
+                else {
+                    returnText = '${commentCount} Comments';
+                    }
+
+                return returnText;
+            }
+
+            _handleButtonClick()
+            {
+
+                this.setState({showComments: !this.state.showComments})
+            }
+
+            render() {
+        
+                const comments = this._getComments();
+                let commentsDiv;
+                let buttonText = "Show Comments";
+
+                if(this.state.showComments) 
+                    buttonText = "Hide Comments"; 
+                else
+                    buttonText = "Show Comments";
+
+                if(this.state.showComments) {
+                    commentsDiv = <div><hr />{comments}</div>
+                }
+                return(
+                        <div className="Background">
+                            <h3>Comment Box</h3>
+                            <button class="HideComments" onClick="this._handleButtonClick.bind(this)">{buttonText}</button>
+                            <h4>{this._getCommentsCount(comments.length)}</h4>
+                            {commentsDiv}
+                            
+                        </div>            
+                    );
+                }
+        
+        }
+        ReactDOM.render(<CommentBox />, document.getElementById('root'));
+    </script>
+    
+</body>
+</html>
