@@ -77,43 +77,46 @@
                 var returnText = "";
 
                 if (commentCount === 0) {
-                    returnText = "No Comments";
+        return 'No Comments';
                     }
                 else if (commentCount === 1) {
-                    returnText = "1 Comment";
+        return '1 Comment';
                     }
                 else {
-                    returnText = '${commentCount} Comments';
+        return commentCount + ' Comments';
                     }
 
-                return returnText;
+                //return returnText;
             }
 
             _handleButtonClick()
             {
 
-                this.setState({showComments: !this.state.showComments})
+                this.setState({showComments: !this.state.showComments});
             }
 
             render() {
         
                 const comments = this._getComments();
                 let commentsDiv;
-                let buttonText = "Show Comments";
+                let buttonText;
 
+                // Show comments is initially false
                 if(this.state.showComments) 
                     buttonText = "Hide Comments"; 
                 else
                     buttonText = "Show Comments";
 
+                // If show comments is true the include the comments div in the returned dom elements
                 if(this.state.showComments) {
                     commentsDiv = <div><hr />{comments}</div>
                 }
+
                 return(
                         <div className="Background">
                             <h3>Comment Box</h3>
-                            <button class="HideComments" onClick="this._handleButtonClick.bind(this)">{buttonText}</button>
-                            <h4>{this._getCommentsCount(comments.length)}</h4>
+                            <button class="HideComments" onClick={ this._handleButtonClick.bind(this) }>{buttonText}</button>                    
+                            <p>{this._getCommentsCount(comments.length)}</p>
                             {commentsDiv}
                             
                         </div>            
